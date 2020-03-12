@@ -1,0 +1,64 @@
+<div class="col-md-6  mt-5 pl-5" hidden="true">
+<?php 
+if(isset($_REQUEST['btnViewResA'])){
+  $resId = $_REQUEST['txtResID'];
+  $netTotal =0;
+  $result = $res->viewResDetails2($resId);
+if($result==false){
+  $noPacks = '<div class="alert alert-danger float-right w-100 text-center" role="alert">Error: No Packages included</div>';
+}
+else{
+  ?>
+  <!--Header-->
+      <div class="text-center">
+        <h4 class="dark-text w-100 font-weight-bold">RESERVATION DETAILS</h4>
+      </div>
+
+      <!--Body-->
+      <div>
+
+      <div class="container">
+
+        <table class="table table-bordered table-striped text-center z-depth-2 table-responsive-md">
+          <thead class="">
+            <tr>
+              <th scope="col">PACKAGE NAME</th>
+              <th scope="col">PRICE</th>
+              <th scope="col">QUANTITY</th>
+              <th scope="col">TOTAl</th>
+            </tr>
+          </thead>
+          <tbody>
+<?php
+  while($row = mysqli_fetch_assoc($result))
+  {
+    $netTotal= $row['NetTotal'];
+  ?>
+            <tr>
+              <td><span id="view-name"><?php echo $row['namePack']; ?></span></td>
+              <td><span id="view-price"><?php echo $row['pricePack']; ?></span></td>
+              <td><span id="view-qnt"><?php echo $row['quantity']; ?></span></td>
+              <td><span id="view-tlt"><?php echo $row['total']; ?></span></td>
+            </tr>
+    <!--/.Content-->
+
+
+<?php }
+
+?>
+        </tbody>
+        </table>
+
+        </div>
+        <div class="container"><h5 class="float-right">Net Total: Rs.<?php echo $netTotal ?></h5></div>
+    </div>
+  
+<?php 
+  }
+}
+else{
+  echo '<div class="alert alert-info float-right w-100 text-center mb-5" role="alert">Select a Reservation to View Details</div>';
+}
+echo $noPacks;
+?>
+</div>
